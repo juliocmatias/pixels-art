@@ -5,13 +5,16 @@
   }
   body {
     background-color: rgb(231, 236, 239);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-style: oblique;
   }
   header {
     text-align: center;
-    font-size: 40pt;
+    font-size: 30pt;
     background-color: rgb(255, 183, 3);
     position: static;
     width: 100%;
+    font-weight: bolder;
   }
   section {
     text-align: center;
