@@ -9,9 +9,10 @@ const divLinePixel = [];
 
 // for para delimitar o tamanho do array divframePixel
 const delimitFrameLine = 5;
+
 const delimitArrayFrame = () => {
   for (let index = delimitFrameLine; index >= 1; index -= 1) {
-    if (delimitFrameLine >= 5) {
+    if (delimitFrameLine >= 5 && delimitFrameLine <= 30) {
       const numberIndex = delimitFrameLine - index + 1;
       divLinePixel.push(numberIndex);
     }
