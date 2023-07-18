@@ -4,6 +4,8 @@ const body = document.querySelector('body');
 const footer = document.querySelector('footer');
 body.insertBefore(sectionFramePixels, footer);
 const row = document.getElementsByClassName('row');
+// const colors = document.getElementsByClassName('color');
+const colors = document.querySelectorAll('.color');
 
 const divLinePixel = [];
 
@@ -46,3 +48,22 @@ const frameLine = () => {
   }
 };
 frameLine();
+
+// selecionar a cor da paleta
+
+const getColor = (eventClick) => {
+  for (let index = 0; index < colors.length; index += 1) {
+    colors[index].classList.remove('selected');
+  }
+
+  const clickedColor = eventClick.target;
+  clickedColor.classList.add('selected');
+};
+
+const selectColor = () => {
+  for (let index = 0; index < colors.length; index += 1) {
+    colors[index].addEventListener('click', getColor);
+  }
+};
+
+selectColor();
