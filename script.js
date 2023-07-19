@@ -6,6 +6,7 @@ body.insertBefore(sectionFramePixels, footer);
 const row = document.getElementsByClassName('row');
 // const colors = document.getElementsByClassName('color');
 const colors = document.querySelectorAll('.color');
+const pixel = document.getElementsByClassName('pixel');
 
 const divLinePixel = [];
 
@@ -26,7 +27,7 @@ const delimitArrayFrame = () => {
 
 delimitArrayFrame();
 
-// cria as linhas dos pixels
+// cria o quadro para as linhas e colunas dos pixels.
 
 const frameLine = () => {
   for (let index = 0; index < divLinePixel.length; index += 1) {
@@ -50,14 +51,16 @@ const frameLine = () => {
 frameLine();
 
 // selecionar a cor da paleta
-
-const getColor = (eventClick) => {
+// let saveClickedColor = null;
+const getColor = (event) => {
   for (let index = 0; index < colors.length; index += 1) {
     colors[index].classList.remove('selected');
   }
 
-  const clickedColor = eventClick.target;
+  const clickedColor = event.target;
   clickedColor.classList.add('selected');
+  // saveClickedColor = clickedColor.style.backgroundColor;
+  // console.log(saveClickedColor);
 };
 
 const selectColor = () => {
@@ -67,3 +70,17 @@ const selectColor = () => {
 };
 
 selectColor();
+
+// preencher um pixel do quadro com a cor selecionada
+
+for (let index = 0; index < pixel.length; index += 1) {
+  pixel[index].addEventListener('click', (event) => {
+    const saveColor = document.querySelector('.selected');
+    const eventTarget = event.target;
+    const colorSave = saveColor.style.backgroundColor;
+    console.log(colorSave);
+    if (saveColor) {
+      eventTarget.style.backgroundColor = colorSave;
+    }
+  });
+}
