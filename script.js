@@ -114,3 +114,19 @@ for (let index = 0; index < pixel.length; index += 1) {
     paintPixel(pixelSelected);
   });
 }
+
+// limpa o quadro preenchendo a cor de todos seus pixels com branco
+
+const button = document.createElement('button');
+button.id = 'clear-board';
+button.innerText = 'Limpar';
+button.style.marginBottom = '15px';
+button.style.marginLeft = '48%';
+body.insertBefore(button, sectionFramePixels);
+
+button.addEventListener('click', () => {
+  for (let index = 0; index < pixel.length; index += 1) {
+    const resetPixel = pixel[index];
+    resetPixel.style.backgroundColor = 'white';
+  }
+});
