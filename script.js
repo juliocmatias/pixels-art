@@ -121,12 +121,34 @@ const button = document.createElement('button');
 button.id = 'clear-board';
 button.innerText = 'Limpar';
 button.style.marginBottom = '15px';
-button.style.marginLeft = '48%';
+button.style.marginLeft = '2%';
 body.insertBefore(button, sectionFramePixels);
 
 button.addEventListener('click', () => {
   for (let index = 0; index < pixel.length; index += 1) {
     const resetPixel = pixel[index];
     resetPixel.style.backgroundColor = 'white';
+  }
+});
+
+// Adicione um botão para gerar cores aleatórias para a paleta de cores
+
+const buttonColor = document.createElement('button');
+buttonColor.id = 'button-random-color';
+buttonColor.innerText = 'Cores aleatórias';
+buttonColor.style.marginLeft = '41%';
+body.insertBefore(buttonColor, button);
+const randomColors = () => {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
+buttonColor.addEventListener('click', () => {
+  for (let index = 0; index < colors.length; index += 1) {
+    const randomColor = colors[index];
+    randomColor.style.backgroundColor = randomColors();
   }
 });
