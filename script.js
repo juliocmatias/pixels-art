@@ -10,24 +10,26 @@ const pixel = document.getElementsByClassName('pixel');
 
 // for para colorir a paleta de cores
 
+const colorData = [
+  { name: 'Federal blue', backgroundColor: 'rgb(3, 4, 94)', className: 'Federal-blue' },
+  { name: 'Marian blue', backgroundColor: 'rgb(2, 62, 138)', className: 'Marian-blue' },
+  { name: 'Honolulu Blue', backgroundColor: 'rgb(0, 119, 182)', className: 'Honolulu-Blue' },
+];
+
+const defaultBackgroundColor = 'rgb(0, 150, 199)';
+const defaultClassName = 'Blue-Green';
+
 const paletteColor = () => {
   for (let index = 0; index < colors.length; index += 1) {
-    colors[index].style.backgroundColor = 'rgb(0, 150, 199)';
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    colors[index].classList.add('Blue-Green');
-    if (colors[index].innerHTML === 'Federal blue') {
-      colors[index].style.backgroundColor = 'rgb(3, 4, 94)';
-      colors[index].classList.add('Federal-blue');
-      colors[index].classList.remove('Blue-Green');
-    } else if (colors[index].innerHTML === 'Marian blue') {
-      colors[index].style.backgroundColor = 'rgb(2, 62, 138)';
-      colors[index].classList.add('Marian-blue');
-      colors[index].classList.remove('Blue-Green');
-    } else if (colors[index].innerHTML === 'Honolulu Blue') {
-      colors[index].style.backgroundColor = 'rgb(0, 119, 182)';
-      colors[index].classList.add('Honolulu-Blue');
-      colors[index].classList.remove('Blue-Green');
-    }
+    const colorName = colors[index].innerHTML;
+    const colorInfo = colorData.find((color) => color.name === colorName);
+
+    colors[index].style.backgroundColor = colorInfo
+      ? colorInfo.backgroundColor
+      : defaultBackgroundColor;
+
+    colors[index].classList.add(colorInfo ? colorInfo.className : defaultClassName);
+    colors[index].classList.remove(defaultClassName);
   }
 };
 
@@ -59,7 +61,6 @@ const frameLine = () => {
     const line = document.createElement('div');
     line.className = 'row';
     line.style.maxHeight = '40px';
-    line.style.margin = '1px';
     sectionFramePixels.appendChild(line);
     for (let indexColumn = 0; indexColumn < divLinePixel.length; indexColumn += 1) {
       const pixelColumn = document.createElement('div');
