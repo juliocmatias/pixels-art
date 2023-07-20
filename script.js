@@ -8,6 +8,31 @@ const row = document.getElementsByClassName('row');
 const colors = document.querySelectorAll('.color');
 const pixel = document.getElementsByClassName('pixel');
 
+// for para colorir a paleta de cores
+
+const paletteColor = () => {
+  for (let index = 0; index < colors.length; index += 1) {
+    colors[index].style.backgroundColor = 'rgb(0, 150, 199)';
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    colors[index].classList.add('Blue-Green');
+    if (colors[index].innerHTML === 'Federal blue') {
+      colors[index].style.backgroundColor = 'rgb(3, 4, 94)';
+      colors[index].classList.add('Federal-blue');
+      colors[index].classList.remove('Blue-Green');
+    } else if (colors[index].innerHTML === 'Marian blue') {
+      colors[index].style.backgroundColor = 'rgb(2, 62, 138)';
+      colors[index].classList.add('Marian-blue');
+      colors[index].classList.remove('Blue-Green');
+    } else if (colors[index].innerHTML === 'Honolulu Blue') {
+      colors[index].style.backgroundColor = 'rgb(0, 119, 182)';
+      colors[index].classList.add('Honolulu-Blue');
+      colors[index].classList.remove('Blue-Green');
+    }
+  }
+};
+
+paletteColor();
+
 const divLinePixel = [];
 
 // for para delimitar o tamanho do array divframePixel
@@ -51,21 +76,24 @@ const frameLine = () => {
 frameLine();
 
 // selecionar a cor da paleta
-// let saveClickedColor = null;
-const getColor = (event) => {
+
+let saveClickedColor = '';
+const getColor = (colorElement) => {
   for (let index = 0; index < colors.length; index += 1) {
     colors[index].classList.remove('selected');
   }
 
-  const clickedColor = event.target;
+  const clickedColor = colorElement;
   clickedColor.classList.add('selected');
-  // saveClickedColor = clickedColor.style.backgroundColor;
-  // console.log(saveClickedColor);
+  const saveColor = window.getComputedStyle(clickedColor).backgroundColor;
+  saveClickedColor = saveColor;
 };
-
 const selectColor = () => {
   for (let index = 0; index < colors.length; index += 1) {
-    colors[index].addEventListener('click', getColor);
+    colors[index].addEventListener('click', () => {
+      const colorElemnt = colors[index];
+      getColor(colorElemnt);
+    });
   }
 };
 
@@ -73,14 +101,15 @@ selectColor();
 
 // preencher um pixel do quadro com a cor selecionada
 
+const paintPixel = (pixelSelected) => {
+  if (!saveClickedColor) return;
+  const pixelClicked = pixelSelected;
+  pixelClicked.style.backgroundColor = saveClickedColor;
+};
+
 for (let index = 0; index < pixel.length; index += 1) {
-  pixel[index].addEventListener('click', (event) => {
-    const saveColor = document.querySelector('.selected');
-    const eventTarget = event.target;
-    const colorSave = saveColor.style.backgroundColor;
-    console.log(colorSave);
-    if (saveColor) {
-      eventTarget.style.backgroundColor = colorSave;
-    }
+  pixel[index].addEventListener('click', () => {
+    const pixelSelected = pixel[index];
+    paintPixel(pixelSelected);
   });
 }
