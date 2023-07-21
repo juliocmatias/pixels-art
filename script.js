@@ -76,6 +76,27 @@ const frameLine = () => {
 };
 frameLine();
 
+// Cria uma função para salvar o desenho atual no localStorage
+const saveDrawingToLocalStorage = () => {
+  const drawingData = [];
+  for (let index = 0; index < pixel.length; index += 1) {
+    const pixelColor = window.getComputedStyle(pixel[index]).backgroundColor;
+    drawingData.push(pixelColor);
+  }
+  localStorage.setItem('pixelBoard', JSON.stringify(drawingData));
+};
+
+// Cria uma função para rescuperar o desenho no localStorage
+
+const recoverDrawingFromLocalStorage = () => {
+  const drawingData = JSON.parse(localStorage.getItem('pixelBoard'));
+  if (drawingData) {
+    for (let index = 0; index < pixel.length; index += 1) {
+      pixel[index].style.backgroundColor = drawingData[index];
+    }
+  }
+};
+
 // selecionar a cor da paleta
 
 let saveClickedColor = '';
@@ -112,8 +133,14 @@ for (let index = 0; index < pixel.length; index += 1) {
   pixel[index].addEventListener('click', () => {
     const pixelSelected = pixel[index];
     paintPixel(pixelSelected);
+    // chama a função para salvar as cores nos pixels clicados
+    saveDrawingToLocalStorage();
   });
 }
+
+window.addEventListener('load', () => {
+  recoverDrawingFromLocalStorage();
+});
 
 // limpa o quadro preenchendo a cor de todos seus pixels com branco
 
@@ -128,6 +155,7 @@ button.addEventListener('click', () => {
   for (let index = 0; index < pixel.length; index += 1) {
     const resetPixel = pixel[index];
     resetPixel.style.backgroundColor = 'white';
+    localStorage.clear();
   }
 });
 
