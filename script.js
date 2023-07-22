@@ -177,9 +177,11 @@ const generateBoard = (size) => {
 };
 // Adicione um ouvinte de eventos para o botão "VQV"
 buttonBoard.addEventListener('click', () => {
-  const inputValue = parseInt(input.value, 10);
-  if (inputValue <= 0 || Number.isNaN(inputValue)) {
+  let inputValue = parseInt(input.value, 10);
+  if (Number.isNaN(inputValue) || inputValue < 5 || inputValue > 50) {
     // Se nenhum valor for colocado no input ao clicar no botão, mostra um alert com o texto: "Board inválido!"
+    inputValue = Math.min(50, Math.max(5, inputValue));
+    input.value = inputValue;
     window.alert('Board inválido!');
   } else {
     // Limpa o quadro existente
