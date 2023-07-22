@@ -3,8 +3,6 @@ sectionFramePixels.id = 'pixel-board';
 const body = document.querySelector('body');
 const footer = document.querySelector('footer');
 body.insertBefore(sectionFramePixels, footer);
-const row = document.getElementsByClassName('row');
-// const colors = document.getElementsByClassName('color');
 const colors = document.querySelectorAll('.color');
 const pixel = document.getElementsByClassName('pixel');
 
@@ -32,48 +30,29 @@ const paletteColor = () => {
     colors[index].classList.remove(defaultClassName);
   }
 };
-
 paletteColor();
 
 const divLinePixel = [];
-
-// for para delimitar o tamanho do array divframePixel
-let delimitFrameLine = 4;
-
-const defaultFrameLine = () => {
-  delimitFrameLine = 5;
-  for (let index = delimitFrameLine; index >= 1; index -= 1) {
-    if (delimitFrameLine >= 5 && delimitFrameLine <= 30) {
-      const numberIndex = delimitFrameLine - index + 1;
-      divLinePixel.push(numberIndex);
-    }
-  }
-};
-
+const newDivLinePixel = [];
+const delimitFrameLine = 5;
 const delimitArrayFrame = () => {
   for (let index = delimitFrameLine; index >= 1; index -= 1) {
-    if (delimitFrameLine >= 5 && delimitFrameLine <= 30) {
+    if (delimitFrameLine >= 5) {
       const numberIndex = delimitFrameLine - index + 1;
       divLinePixel.push(numberIndex);
     }
   }
-  if (delimitFrameLine < 5) {
-    window.alert('Board inválido!');
-    defaultFrameLine();
-  }
 };
-
 delimitArrayFrame();
-
 // cria o quadro para as linhas e colunas dos pixels.
-
-const frameLine = () => {
-  for (let index = 0; index < divLinePixel.length; index += 1) {
+const row = document.getElementsByClassName('row');
+const frameLine = (array) => {
+  for (let index = 0; index < array.length; index += 1) {
     const line = document.createElement('div');
     line.className = 'row';
     line.style.maxHeight = '40px';
     sectionFramePixels.appendChild(line);
-    for (let indexColumn = 0; indexColumn < divLinePixel.length; indexColumn += 1) {
+    for (let indexColumn = 0; indexColumn < array.length; indexColumn += 1) {
       const pixelColumn = document.createElement('div');
       pixelColumn.className = 'pixel';
       pixelColumn.style.border = '1px solid black';
@@ -85,8 +64,7 @@ const frameLine = () => {
     }
   }
 };
-frameLine();
-
+frameLine(divLinePixel);
 // Cria uma função para salvar o desenho atual no localStorage
 const saveDrawingToLocalStorage = () => {
   const drawingData = [];
@@ -96,9 +74,7 @@ const saveDrawingToLocalStorage = () => {
   }
   localStorage.setItem('pixelBoard', JSON.stringify(drawingData));
 };
-
 // Cria uma função para rescuperar o desenho no localStorage
-
 const recoverDrawingFromLocalStorage = () => {
   const drawingData = JSON.parse(localStorage.getItem('pixelBoard'));
   if (drawingData) {
@@ -107,15 +83,12 @@ const recoverDrawingFromLocalStorage = () => {
     }
   }
 };
-
 // selecionar a cor da paleta
-
 let saveClickedColor = '';
 const getColor = (colorElement) => {
   for (let index = 0; index < colors.length; index += 1) {
     colors[index].classList.remove('selected');
   }
-
   const clickedColor = colorElement;
   clickedColor.classList.add('selected');
   const saveColor = window.getComputedStyle(clickedColor).backgroundColor;
@@ -129,39 +102,36 @@ const selectColor = () => {
     });
   }
 };
-
 selectColor();
-
 // preencher um pixel do quadro com a cor selecionada
-
 const paintPixel = (pixelSelected) => {
   if (!saveClickedColor) return;
   const pixelClicked = pixelSelected;
   pixelClicked.style.backgroundColor = saveClickedColor;
 };
-
-for (let index = 0; index < pixel.length; index += 1) {
-  pixel[index].addEventListener('click', () => {
-    const pixelSelected = pixel[index];
-    paintPixel(pixelSelected);
-    // chama a função para salvar as cores nos pixels clicados
-    saveDrawingToLocalStorage();
-  });
-}
+const pixelSelect = () => {
+  for (let index = 0; index < pixel.length; index += 1) {
+    pixel[index].addEventListener('click', () => {
+      const pixelSelected = pixel[index];
+      paintPixel(pixelSelected);
+      // chama a função para salvar as cores nos pixels clicados
+      saveDrawingToLocalStorage();
+    });
+  }
+};
+pixelSelect();
+// para recuperar localStorage assim que a pagina for carregada.
 
 window.addEventListener('load', () => {
   recoverDrawingFromLocalStorage();
 });
-
 // limpa o quadro preenchendo a cor de todos seus pixels com branco
-
 const button = document.createElement('button');
 button.id = 'clear-board';
 button.innerText = 'Limpar';
 button.style.marginBottom = '15px';
 button.style.marginLeft = '2%';
 body.insertBefore(button, sectionFramePixels);
-
 button.addEventListener('click', () => {
   for (let index = 0; index < pixel.length; index += 1) {
     const resetPixel = pixel[index];
@@ -169,9 +139,7 @@ button.addEventListener('click', () => {
     localStorage.clear();
   }
 });
-
 // Adicione um botão para gerar cores aleatórias para a paleta de cores
-
 const buttonColors = document.createElement('button');
 buttonColors.id = 'button-random-color';
 buttonColors.innerText = 'Cores aleatórias';
@@ -181,31 +149,44 @@ const randomColors = () => {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
   const b = Math.floor(Math.random() * 256);
-
   return `rgb(${r}, ${g}, ${b})`;
 };
-
 buttonColors.addEventListener('click', () => {
   for (let index = 0; index < colors.length; index += 1) {
     const randomColor = colors[index];
     randomColor.style.backgroundColor = randomColors();
   }
 });
-
-// Crie um input que permita à pessoa usuária preencher um novo tamanho para o quadro de pixels
-// cria um label para adc o input e o botão
-const label = document.createElement('label');
-body.insertBefore(label, buttonColors);
-
-const input = document.createElement('input');
-input.id = 'board-size';
-input.type = 'number';
-input.min = '5';
-input.placeholder = 'Troque o tamanho do quadro';
+const buttonBoard = document.getElementById('generate-board');
+const input = document.getElementById('board-size');
 input.style.marginLeft = '30%';
-label.appendChild(input);
 
-const buttonBoard = document.createElement('button');
-buttonBoard.id = 'generate-board';
-buttonBoard.innerText = 'VQV';
-label.appendChild(buttonBoard);
+const clearBoard = () => {
+  sectionFramePixels.innerHTML = '';
+  divLinePixel.length = 0;
+  newDivLinePixel.length = 0;
+};
+// Crie uma função para gerar o quadro com o novo tamanho
+const generateBoard = (size) => {
+  for (let index = size; index >= 1; index -= 1) {
+    const numberIndex = size - index + 1;
+    newDivLinePixel.push(numberIndex);
+  }
+  frameLine(newDivLinePixel);
+  pixelSelect();
+};
+// Adicione um ouvinte de eventos para o botão "VQV"
+buttonBoard.addEventListener('click', () => {
+  const inputValue = parseInt(input.value, 10);
+  if (inputValue <= 0 || Number.isNaN(inputValue)) {
+    // Se nenhum valor for colocado no input ao clicar no botão, mostra um alert com o texto: "Board inválido!"
+    window.alert('Board inválido!');
+  } else {
+    // Limpa o quadro existente
+    clearBoard();
+    // Gera o quadro com o novo tamanho
+    generateBoard(inputValue);
+    // Remove o quadro salvo no localStorage
+    localStorage.removeItem('pixelBoard');
+  }
+});
