@@ -38,7 +38,17 @@ paletteColor();
 const divLinePixel = [];
 
 // for para delimitar o tamanho do array divframePixel
-const delimitFrameLine = 5;
+let delimitFrameLine = 4;
+
+const defaultFrameLine = () => {
+  delimitFrameLine = 5;
+  for (let index = delimitFrameLine; index >= 1; index -= 1) {
+    if (delimitFrameLine >= 5 && delimitFrameLine <= 30) {
+      const numberIndex = delimitFrameLine - index + 1;
+      divLinePixel.push(numberIndex);
+    }
+  }
+};
 
 const delimitArrayFrame = () => {
   for (let index = delimitFrameLine; index >= 1; index -= 1) {
@@ -48,7 +58,8 @@ const delimitArrayFrame = () => {
     }
   }
   if (delimitFrameLine < 5) {
-    return window.alert('A linha e coluna do pixel deve conter no mínimo 5 elementos');
+    window.alert('Board inválido!');
+    defaultFrameLine();
   }
 };
 
@@ -161,11 +172,11 @@ button.addEventListener('click', () => {
 
 // Adicione um botão para gerar cores aleatórias para a paleta de cores
 
-const buttonColor = document.createElement('button');
-buttonColor.id = 'button-random-color';
-buttonColor.innerText = 'Cores aleatórias';
-buttonColor.style.marginLeft = '41%';
-body.insertBefore(buttonColor, button);
+const buttonColors = document.createElement('button');
+buttonColors.id = 'button-random-color';
+buttonColors.innerText = 'Cores aleatórias';
+buttonColors.style.marginLeft = '2%';
+body.insertBefore(buttonColors, button);
 const randomColors = () => {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
@@ -174,9 +185,27 @@ const randomColors = () => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
-buttonColor.addEventListener('click', () => {
+buttonColors.addEventListener('click', () => {
   for (let index = 0; index < colors.length; index += 1) {
     const randomColor = colors[index];
     randomColor.style.backgroundColor = randomColors();
   }
 });
+
+// Crie um input que permita à pessoa usuária preencher um novo tamanho para o quadro de pixels
+// cria um label para adc o input e o botão
+const label = document.createElement('label');
+body.insertBefore(label, buttonColors);
+
+const input = document.createElement('input');
+input.id = 'board-size';
+input.type = 'number';
+input.min = '5';
+input.placeholder = 'Troque o tamanho do quadro';
+input.style.marginLeft = '30%';
+label.appendChild(input);
+
+const buttonBoard = document.createElement('button');
+buttonBoard.id = 'generate-board';
+buttonBoard.innerText = 'VQV';
+label.appendChild(buttonBoard);
