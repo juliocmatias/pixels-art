@@ -35,15 +35,16 @@ paletteColor();
 const divLinePixel = [];
 const newDivLinePixel = [];
 const delimitFrameLine = 5;
-const delimitArrayFrame = () => {
-  for (let index = delimitFrameLine; index >= 1; index -= 1) {
-    if (delimitFrameLine >= 5) {
-      const numberIndex = delimitFrameLine - index + 1;
+
+const delimitArrayFrame = (delimitLine) => {
+  for (let index = delimitLine; index >= 1; index -= 1) {
+    if (delimitLine >= 5) {
+      const numberIndex = delimitLine - index + 1;
       divLinePixel.push(numberIndex);
     }
   }
 };
-delimitArrayFrame();
+delimitArrayFrame(delimitFrameLine);
 // cria o quadro para as linhas e colunas dos pixels.
 const row = document.getElementsByClassName('row');
 const frameLine = (array) => {
@@ -64,7 +65,16 @@ const frameLine = (array) => {
     }
   }
 };
+// const countLines = (array) => {
+//   const arrayLength = array.length;
+//   if (arrayLength < 5) {
+//     frameLine(divLinePixel);
+//   } else if (arrayLength > 50) {
+
+//   }
+// };
 frameLine(divLinePixel);
+console.log(divLinePixel.length);
 // Cria uma função para salvar o desenho atual no localStorage
 const saveDrawingToLocalStorage = () => {
   const drawingData = [];
@@ -168,27 +178,30 @@ const clearBoard = () => {
 };
 // Crie uma função para gerar o quadro com o novo tamanho
 const generateBoard = (size) => {
-  for (let index = size; index >= 1; index -= 1) {
-    const numberIndex = size - index + 1;
+  let countSize = size;
+  if (countSize < 5) {
+    countSize = 5;
+  } else if (countSize > 50) {
+    countSize = 50;
+  }
+  for (let index = countSize; index >= 1; index -= 1) {
+    const numberIndex = countSize - index + 1;
     newDivLinePixel.push(numberIndex);
   }
   frameLine(newDivLinePixel);
   pixelSelect();
 };
 // Adicione um ouvinte de eventos para o botão "VQV"
-buttonBoard.addEventListener('click', () => {
-  let inputValue = parseInt(input.value, 10);
-  if (Number.isNaN(inputValue) || inputValue < 5 || inputValue > 50) {
-    // Se nenhum valor for colocado no input ao clicar no botão, mostra um alert com o texto: "Board inválido!"
-    inputValue = Math.min(50, Math.max(5, inputValue));
-    input.value = inputValue;
+buttonBoard.addEventListener('click', (event) => {
+  event.preventDefault();
+  clearBoard();
+  localStorage.removeItem('pixelBoard');
+  const inputValue = input.value;
+
+  if (inputValue === '') {
     window.alert('Board inválido!');
-  } else {
-    // Limpa o quadro existente
-    clearBoard();
-    // Gera o quadro com o novo tamanho
-    generateBoard(inputValue);
-    // Remove o quadro salvo no localStorage
-    localStorage.removeItem('pixelBoard');
   }
+  generateBoard(inputValue);
+
+  input.value = '';
 });
