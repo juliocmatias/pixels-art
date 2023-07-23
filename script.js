@@ -65,20 +65,13 @@ const frameLine = (array) => {
     }
   }
 };
-// const countLines = (array) => {
-//   const arrayLength = array.length;
-//   if (arrayLength < 5) {
-//     frameLine(divLinePixel);
-//   } else if (arrayLength > 50) {
-
-//   }
-// };
 frameLine(divLinePixel);
 // Cria uma função para salvar o desenho atual no localStorage
 const saveDrawingToLocalStorage = () => {
   const drawingData = [];
-  for (let index = 0; index < pixel.length; index += 1) {
-    const pixelColor = window.getComputedStyle(pixel[index]).backgroundColor;
+  const pixelStorage = document.getElementsByClassName('pixel');
+  for (let index = 0; index < pixelStorage.length; index += 1) {
+    const pixelColor = window.getComputedStyle(pixelStorage[index]).backgroundColor;
     drawingData.push(pixelColor);
   }
   localStorage.setItem('pixelBoard', JSON.stringify(drawingData));
@@ -129,11 +122,6 @@ const pixelSelect = () => {
   }
 };
 pixelSelect();
-// para recuperar localStorage assim que a pagina for carregada.
-
-window.addEventListener('load', () => {
-  recoverDrawingFromLocalStorage();
-});
 // limpa o quadro preenchendo a cor de todos seus pixels com branco
 const button = document.createElement('button');
 button.id = 'clear-board';
@@ -189,6 +177,12 @@ const generateBoard = (size) => {
   }
   frameLine(newDivLinePixel);
   pixelSelect();
+  localStorage.setItem('boardSize', countSize);
+};
+// Recuperar o tamanho do board armazenado no localStorage
+const getBoardSizeFromLocalStorage = () => {
+  const boardSize = JSON.parse(localStorage.getItem('boardSize'));
+  return boardSize || 5; // Valor padrão 5 caso não exista no localStorage
 };
 // Adicione um ouvinte de eventos para o botão "VQV"
 buttonBoard.addEventListener('click', (event) => {
@@ -203,4 +197,20 @@ buttonBoard.addEventListener('click', (event) => {
   generateBoard(inputValue);
 
   input.value = '';
+});
+
+// Função para manter o tamanho do board ao recarregar a página
+const keepBoardSizeOnReload = () => {
+  const boardSize = getBoardSizeFromLocalStorage();
+  // input.value = boardSize;
+  clearBoard();
+  generateBoard(boardSize);
+  recoverDrawingFromLocalStorage();
+};
+
+// para recuperar localStorage assim que a pagina for carregada.
+
+window.addEventListener('load', () => {
+  recoverDrawingFromLocalStorage();
+  keepBoardSizeOnReload();
 });
