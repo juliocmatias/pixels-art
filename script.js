@@ -74,7 +74,6 @@ const frameLine = (array) => {
 //   }
 // };
 frameLine(divLinePixel);
-console.log(divLinePixel.length);
 // Cria uma função para salvar o desenho atual no localStorage
 const saveDrawingToLocalStorage = () => {
   const drawingData = [];
@@ -169,7 +168,7 @@ buttonColors.addEventListener('click', () => {
 });
 const buttonBoard = document.getElementById('generate-board');
 const input = document.getElementById('board-size');
-input.style.marginLeft = '30%';
+input.style.marginLeft = '35%';
 
 const clearBoard = () => {
   sectionFramePixels.innerHTML = '';
