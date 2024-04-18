@@ -5,6 +5,9 @@ const footer = document.querySelector('footer');
 body.insertBefore(sectionFramePixels, footer);
 const colors = document.querySelectorAll('.color');
 const pixel = document.getElementsByClassName('pixel');
+const divInsertBar = document.getElementById('insert-bar');
+const buttonBoard = document.getElementById('generate-board');
+const input = document.getElementById('board-size');
 
 // for para colorir a paleta de cores
 
@@ -126,9 +129,8 @@ pixelSelect();
 const button = document.createElement('button');
 button.id = 'clear-board';
 button.innerText = 'Limpar';
-button.style.marginBottom = '15px';
-button.style.marginLeft = '2%';
-body.insertBefore(button, sectionFramePixels);
+divInsertBar.appendChild(button);
+
 button.addEventListener('click', () => {
   for (let index = 0; index < pixel.length; index += 1) {
     const resetPixel = pixel[index];
@@ -140,23 +142,21 @@ button.addEventListener('click', () => {
 const buttonColors = document.createElement('button');
 buttonColors.id = 'button-random-color';
 buttonColors.innerText = 'Cores aleatórias';
-buttonColors.style.marginLeft = '2%';
-body.insertBefore(buttonColors, button);
+divInsertBar.insertBefore(buttonColors, button);
+
 const randomColors = () => {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
   const b = Math.floor(Math.random() * 256);
   return `rgb(${r}, ${g}, ${b})`;
 };
+
 buttonColors.addEventListener('click', () => {
   for (let index = 0; index < colors.length; index += 1) {
     const randomColor = colors[index];
     randomColor.style.backgroundColor = randomColors();
   }
 });
-const buttonBoard = document.getElementById('generate-board');
-const input = document.getElementById('board-size');
-input.style.marginLeft = '35%';
 
 const clearBoard = () => {
   sectionFramePixels.innerHTML = '';
