@@ -3,8 +3,8 @@
 <details>
   <summary><strong>Summary</strong></summary>
 
-This was a project developed in the fundamentals module at [trybe](https://www.betrybe.com/).
-it was developed using htm and ECMA 6 with script.js and style.css files. Pixel Art is a web page application where you can paint pixels and develop your imagination. Feel free to create and promote improvements by creating a fork pull request.
+This was a project developed in the fundamentals module at [trybe](https://www.betrybe.com/).\
+It was developed using htm and ECMA 6 with script.js and style.css files. Pixel Art is a web page application where you can paint pixels and develop your imagination. Feel free to create and promote improvements by creating a fork pull request.
 
 </details>
 
