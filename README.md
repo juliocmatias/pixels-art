@@ -15,7 +15,7 @@ It was developed in HTML and script.js and style.css files. Pixel Art is a web p
 
 copy the repository to a local folder using the terminal and passing the command:
 
-`git clone git@github.com:juliomatiastrybe/pixels-art.git`
+`git clone git@github.com:juliocmatias/pixels-art.git`
 
 If you don't have git installed, you can install it using this command in the shell and bash terminal:
 
@@ -53,7 +53,7 @@ using this command application will open in the browser.
 <details>
   <summary><strong>Url</strong></summary>
 
-  If you want an option to view the application more easily and quickly, click on [Pixel-Art](https://juliomatiastrybe.github.io/project-pixel-art/)
+  If you want an option to view the application more easily and quickly, click on [Pixel-Art](https://juliocmatias.github.io/project-pixel-art/)
 
 </details>
 
